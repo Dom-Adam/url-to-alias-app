@@ -1,13 +1,9 @@
-import lmdb from "../lmdb";
+import database from "../lmdb";
 
-class UrlToAliasRepository {
-  async create(alias: string, url: string): Promise<boolean> {
-    return await lmdb.put(alias, url);
-  }
-
-  find(alias: string): string {
-    return lmdb.get(alias);
-  }
+export async function repoCreate(alias: string, url: string): Promise<boolean> {
+  return await database.put(alias, url);
 }
 
-export default new UrlToAliasRepository();
+export function repoFind(alias: string): string | undefined {
+  return database.get(alias);
+}
