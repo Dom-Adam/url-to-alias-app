@@ -7,7 +7,7 @@ const app = createApp();
 describe("UrlToAlias controller", () => {
   describe("create", () => {
     it("sends status 400 if validation failed", async () => {
-      jest.spyOn(UrlToAliasRepository, "repoCreate").mockResolvedValue(true);
+      //jest.spyOn(UrlToAliasRepository, "repoCreate").mockResolvedValue(true);
       const res = await supertest(app)
         .post("/api/url")
         .send({ url: "url", alias: "alias" });
@@ -20,7 +20,7 @@ describe("UrlToAlias controller", () => {
       const url = " Https://GitHub.com/ ";
       const mock = jest
         .spyOn(UrlToAliasRepository, "repoCreate")
-        .mockResolvedValue(true);
+        .mockResolvedValue(UrlToAliasRepository.WriteSuccessful);
       await supertest(app).post("/api/url").send({ url: url, alias: alias });
 
       expect(mock).toHaveBeenCalledWith("git", "https://github.com/");
@@ -31,10 +31,10 @@ describe("UrlToAlias controller", () => {
       const url = " Https://GitHub.com/ ";
       const mock = jest
         .spyOn(UrlToAliasRepository, "repoCreate")
-        .mockResolvedValue(true);
+        .mockResolvedValue(UrlToAliasRepository.WriteSuccessful);
       await supertest(app).post("/api/url").send({ url: url, alias: alias });
 
-      expect(mock).toBeCalledWith(
+      expect(mock).toHaveBeenCalledWith(
         typeof alias === "string",
         "https://github.com/"
       );

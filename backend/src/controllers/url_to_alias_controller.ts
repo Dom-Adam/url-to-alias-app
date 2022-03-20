@@ -1,6 +1,12 @@
 import express from "express";
 import { validationResult } from "express-validator";
-import { repoCreate, repoFind } from "../repositories/url_to_alias_repository";
+import {
+  EntryExisted,
+  repoCreate,
+  repoFind,
+  WriteFailed,
+  WriteSuccessful,
+} from "../repositories/url_to_alias_repository";
 import {
   adjectives,
   animals,
@@ -29,10 +35,12 @@ export async function controllerCreate(
   const url: string = req.body["url"];
   const repoResponse = await repoCreate(alias, url);
 
-  if (repoResponse) {
-    res.status(201).json({ url: url, alias: alias });
+  if (repoResponse == WriteSuccessful) {
+    res.status(201).json({ url: url, alias: alias, msg: WriteSuccessful });
+  } else if (repoResponse == EntryExisted) {
+    res.json({ msg: EntryExisted });
   } else {
-    res.sendStatus(507);
+    res.json({ msg: WriteFailed }).sendStatus(507);
   }
 }
 

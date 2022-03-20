@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { body, param } from "express-validator";
 import {
@@ -8,6 +9,7 @@ import {
 export function createApp() {
   const app = express();
 
+  app.use(cors());
   app.use(express.json());
   app.post(
     "/api/url",

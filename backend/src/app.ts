@@ -1,7 +1,10 @@
 import { createApp } from "./create_app";
+import "dotenv/config";
 
 const app = createApp();
 
-app.listen(3004, () => console.log("Started @ 3000"));
+app.listen(process.env.PORT, () =>
+  console.log(`started @ ${process.env.PORT}`)
+);
 
 export default app;

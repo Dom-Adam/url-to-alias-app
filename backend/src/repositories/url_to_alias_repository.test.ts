@@ -1,5 +1,11 @@
 import { mockDatabase } from "../mock-lmdb";
-import { repoCreate, repoFind } from "./url_to_alias_repository";
+import {
+  EntryExisted,
+  repoCreate,
+  repoFind,
+  WriteFailed,
+  WriteSuccessful,
+} from "./url_to_alias_repository";
 
 describe("UrlToAliasRepository", () => {
   const alias = "alias";
@@ -14,12 +20,31 @@ describe("UrlToAliasRepository", () => {
 
     it("returns correct data", async () => {
       mockDatabase.put.mockResolvedValue(true);
-      await expect(repoCreate(alias, url)).resolves.toBe(true);
+      await expect(repoCreate(alias, url)).resolves.toBe(WriteSuccessful);
     });
 
-    it("returns false if insertion failed", async () => {
+    it("returns WriteFailed if insertion failed", async () => {
+      mockDatabase.doesExist.mockReturnValue(false);
       mockDatabase.put.mockResolvedValue(false);
-      await expect(repoCreate(alias, url)).resolves.toBe(false);
+      await expect(repoCreate(alias, url)).resolves.toBe(WriteFailed);
+      expect(mockDatabase.doesExist).toHaveBeenCalledWith(alias);
+      expect(mockDatabase.put).toHaveBeenCalledWith(alias, url);
+    });
+
+    it("returns WriteSuccessful if insertion succeeds", () => {
+      mockDatabase.doesExist.mockReturnValue(false);
+      mockDatabase.put.mockResolvedValue(true);
+      expect(repoCreate(alias, url)).resolves.toBe(WriteSuccessful);
+      expect(mockDatabase.doesExist).toHaveBeenCalledWith(alias);
+      expect(mockDatabase.put).toHaveBeenCalledWith(alias, url);
+    });
+
+    it("returns EntryExisted if alias is already in database", () => {
+      mockDatabase.doesExist.mockReturnValue(true);
+      mockDatabase.put.mockResolvedValue(true);
+      expect(repoCreate(alias, url)).resolves.toBe(EntryExisted);
+      expect(mockDatabase.doesExist).toHaveBeenCalledWith(alias);
+      expect(mockDatabase.put).not.toBeCalled();
     });
   });
 
