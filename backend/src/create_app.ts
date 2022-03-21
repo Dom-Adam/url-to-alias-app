@@ -19,7 +19,10 @@ export function createApp() {
   );
   app.get(
     "/:alias",
-    param("alias").trim().toLowerCase().isString(),
+    param("alias")
+      .trim()
+      .toLowerCase()
+      .matches(/^[a-zA-Z0-9_-]*$/),
     controllerFind
   );
 

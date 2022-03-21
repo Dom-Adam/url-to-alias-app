@@ -3,7 +3,7 @@ import "./App.css";
 import { Button, Form, Input } from "antd";
 import "antd/dist/antd.css";
 import { useForm } from "antd/lib/form/Form";
-import { EntryExisted, WriteSuccessful } from "./constants";
+import { EntryExisted, WriteSuccessfull } from "./constants";
 
 interface Message {
   success: boolean | null;
@@ -50,7 +50,7 @@ function App() {
       if (resJson.msg == EntryExisted) {
         form.setFields([{ name: "alias", errors: [resJson.msg] }]);
         setMessage({ success: null });
-      } else if (resJson.msg == WriteSuccessful) {
+      } else if (resJson.msg == WriteSuccessfull) {
         setMessage({ success: true, alias: resJson.alias, url: resJson.url });
       } else {
         setMessage({ success: false });

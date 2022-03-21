@@ -1,12 +1,12 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
-import { EntryExisted, WriteFailed, WriteSuccessful } from "./constants";
+import { EntryExisted, WriteFailed, WriteSuccessfull } from "./constants";
 import App from "./App";
 
 const server = setupServer(
   rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
-    return res(ctx.json({ msg: WriteSuccessful, url: "url", alias: "alias" }));
+    return res(ctx.json({ msg: WriteSuccessfull, url: "url", alias: "alias" }));
   })
 );
 
@@ -33,7 +33,7 @@ test("handles successful write", async () => {
     rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
       return res(
         ctx.json({
-          msg: WriteSuccessful,
+          msg: WriteSuccessfull,
           url: "http://github.com",
           alias: "git",
         })

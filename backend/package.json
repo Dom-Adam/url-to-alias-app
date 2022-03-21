@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently -r -k \"npm run watch-ts\" \"npm run watch-node\"",
-    "test": "jest",
+    "test": "rimraf build && jest",
     "watch": "tsc --watch",
     "watch-node": "nodemon build/app.js",
     "watch-ts": "tsc -w"
@@ -20,6 +20,7 @@
     "express-validator": "^6.14.0",
     "lmdb": "^2.2.5",
     "morgan": "~1.9.1",
+    "rimraf": "^3.0.2",
     "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {

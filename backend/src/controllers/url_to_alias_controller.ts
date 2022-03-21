@@ -5,14 +5,8 @@ import {
   repoCreate,
   repoFind,
   WriteFailed,
-  WriteSuccessful,
+  WriteSuccessfull,
 } from "../repositories/url_to_alias_repository";
-import {
-  adjectives,
-  animals,
-  colors,
-  uniqueNamesGenerator,
-} from "unique-names-generator";
 
 // @ts-expect-error
 export async function controllerCreate(
@@ -25,19 +19,15 @@ export async function controllerCreate(
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const alias: string =
-    typeof req.body.alias === "string" && req.body.alias !== ""
-      ? req.body.alias
-      : uniqueNamesGenerator({
-          dictionaries: [adjectives, colors, animals],
-          length: 2,
-        });
-  const url: string = req.body["url"];
+  const alias: string = req.body.alias;
+  const url: string = req.body.url;
   const repoResponse = await repoCreate(alias, url);
 
-  if (repoResponse == WriteSuccessful) {
-    res.status(201).json({ url: url, alias: alias, msg: WriteSuccessful });
-  } else if (repoResponse == EntryExisted) {
+  if (repoResponse.msg == WriteSuccessfull) {
+    res
+      .status(201)
+      .json({ url: url, alias: repoResponse.alias, msg: WriteSuccessfull });
+  } else if (repoResponse.msg == EntryExisted) {
     res.json({ msg: EntryExisted });
   } else {
     res.json({ msg: WriteFailed }).sendStatus(507);
