@@ -3,9 +3,9 @@ import "./App.css";
 import { Button, Form, Input } from "antd";
 import "antd/dist/antd.css";
 import { useForm } from "antd/lib/form/Form";
-import { EntryExisted, WriteSuccessfull } from "./constants";
+import { EntryExisted, ServerUrl, WriteSuccessfull } from "./constants";
 
-interface Message {
+interface MessageModel {
   success: boolean | null;
   alias?: string;
   url?: string;
@@ -16,7 +16,7 @@ const regexValidator = (rule: string): boolean => {
   return regex.test(rule);
 };
 
-const Message = ({ success, alias, url }: Message) => {
+const Message = ({ success, alias, url }: MessageModel) => {
   if (success) {
     return (
       <p>
@@ -33,13 +33,13 @@ const Message = ({ success, alias, url }: Message) => {
 function App() {
   const [loading, setLoading] = useState(false);
   const [form] = useForm();
-  const [message, setMessage] = useState<Message>({ success: null });
+  const [message, setMessage] = useState<MessageModel>({ success: null });
 
   const submit = async (payload: any) => {
     setLoading(true);
 
     try {
-      const reponse = await fetch(process.env.REACT_APP_URL as string, {
+      const reponse = await fetch(ServerUrl, {
         body: JSON.stringify(payload),
         method: "POST",
         headers: { "Content-Type": "application/json" },

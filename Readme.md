@@ -24,13 +24,13 @@ The frontend is kept pretty simple. Because of the simplicity of the app, I deci
 
 ## Running Tests
 
-To run tests, run the following command
+To run the tests change into the respective sub-directory, and run following commands.
 
 ```bash
   npm run test
 ```
 
-To run end to end tests, run this command
+end to end tests (backend only)
 
 ```bash
 npm run e2e-test
