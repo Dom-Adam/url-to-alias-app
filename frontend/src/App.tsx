@@ -77,7 +77,7 @@ function App() {
               },
               {
                 type: "url",
-                message: "needs to be valid url",
+                message: "needs to be valid url format",
               },
             ]}
           >
@@ -89,7 +89,7 @@ function App() {
             hasFeedback
             rules={[
               {
-                pattern: /^[0-9a-zA-Z]*$/,
+                pattern: /^[0-9a-zA-Z_-]*$/,
                 message:
                   "only alphanumeric characters, dashes, and underscores are allowed",
               },

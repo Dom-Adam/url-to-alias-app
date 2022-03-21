@@ -1,7 +1,7 @@
+import { createApp } from "../create_app";
+import database from "../lmdb";
 import supertest from "supertest";
-import { createApp } from "./create_app";
-import database from "./lmdb";
-import { WriteSuccessfull } from "./repositories/url_to_alias_repository";
+import { WriteSuccessfull } from "../repositories/url_to_alias_repository";
 
 const app = createApp();
 

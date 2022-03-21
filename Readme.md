@@ -13,11 +13,25 @@ The backend is split up into a controller and data layer. I decided to leave out
 
 # Frontend
 
-The frontend is kept pretty simple. Because of the simplicity of the app, I decided to not use any state management libraries or clients to keep the bundle size small.
+The frontend is kept pretty simple. Because of the simplicity of the app, I decided to not use any state management libraries or rest clients to keep the bundle size small.
 
-| Package                | Reason                                                           |
-| :--------------------- | :--------------------------------------------------------------- |
-| react                  | most popular web frontend framework                              |
-| @testing-library/react | standart for testing in react                                    |
-| antd                   | provides good styles and exellent form validation out of the box |
-| msw                    | makes mocking web requests easier                                |
+| Package                | Reason                                                  |
+| :--------------------- | :------------------------------------------------------ |
+| react                  | most popular web frontend framework                     |
+| @testing-library/react | standard for testing in react                           |
+| antd                   | provides good styles and form validation out of the box |
+| msw                    | makes mocking fetch requests easier                     |
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
+
+To run end to end tests, run this command
+
+```bash
+npm run e2e-test
+```
