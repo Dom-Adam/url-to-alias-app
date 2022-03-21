@@ -3,7 +3,12 @@ import "./App.css";
 import { Button, Form, Input } from "antd";
 import "antd/dist/antd.css";
 import { useForm } from "antd/lib/form/Form";
-import { EntryExisted, ServerUrl, WriteSuccessfull } from "./constants";
+import {
+  BaseUrl,
+  EntryExisted,
+  ServerUrl,
+  WriteSuccessfull,
+} from "./constants";
 
 interface MessageModel {
   success: boolean | null;
@@ -20,7 +25,7 @@ const Message = ({ success, alias, url }: MessageModel) => {
   if (success) {
     return (
       <p>
-        link was successfully created <a href={url}>{alias}</a>
+        link was successfully created <a href={`${BaseUrl}${alias}`}>{alias}</a>
       </p>
     );
   } else if (success == false) {
