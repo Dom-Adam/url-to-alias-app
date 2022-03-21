@@ -1,11 +1,16 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
-import { EntryExisted, WriteFailed, WriteSuccessfull } from "./constants";
+import {
+  EntryExisted,
+  ServerUrl,
+  WriteFailed,
+  WriteSuccessfull,
+} from "./constants";
 import App from "./App";
 
 const server = setupServer(
-  rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
+  rest.post(ServerUrl as string, (req, res, ctx) => {
     return res(ctx.json({ msg: WriteSuccessfull, url: "url", alias: "alias" }));
   })
 );
@@ -30,7 +35,7 @@ test("checks if url is valid", async () => {
 
 test("handles successful write", async () => {
   server.use(
-    rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
+    rest.post(ServerUrl, (req, res, ctx) => {
       return res(
         ctx.json({
           msg: WriteSuccessfull,
@@ -47,11 +52,13 @@ test("handles successful write", async () => {
   fireEvent.click(screen.getByRole("button", { name: "Submit" }));
   await waitFor(() => screen.getByRole("link"));
   expect(screen.getByRole("link")).toHaveTextContent("git");
+  expect(screen.getByLabelText("Url")).toHaveValue("");
+  expect(screen.getByLabelText("Alias")).toHaveValue("");
 });
 
 test("handles alias already exists", async () => {
   server.use(
-    rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
+    rest.post(ServerUrl, (req, res, ctx) => {
       return res(ctx.json({ msg: EntryExisted }));
     })
   );
@@ -69,7 +76,7 @@ test("handles alias already exists", async () => {
 
 test("handles error", async () => {
   server.use(
-    rest.post(process.env.REACT_APP_URL as string, (req, res, ctx) => {
+    rest.post(ServerUrl, (req, res, ctx) => {
       return res(ctx.json({ msg: WriteFailed }));
     })
   );

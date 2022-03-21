@@ -52,6 +52,7 @@ function App() {
         setMessage({ success: null });
       } else if (resJson.msg == WriteSuccessfull) {
         setMessage({ success: true, alias: resJson.alias, url: resJson.url });
+        form.resetFields();
       } else {
         setMessage({ success: false });
       }
